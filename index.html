@@ -4,7 +4,37 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Taigan — Умная система для общепита</title>
+<meta name="description" content="Taigan — касса, кухонный экран, CRM и ИИ-аналитика в одной системе для кафе и ресторанов. Подключение за 1 день, 7 дней бесплатно.">
+<meta name="theme-color" content="#0B0B0F">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:title" content="Taigan — Умная система для общепита">
+<meta property="og:description" content="Касса, кухонный экран, CRM и ИИ-аналитика в одном месте. Больше никаких таблиц и угадайки.">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Taigan — Умная система для общепита">
+<meta name="twitter:description" content="Касса, кухонный экран, CRM и ИИ-аналитика в одном месте.">
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230B0B0F'/%3E%3Ctext x='50' y='70' font-family='Arial, sans-serif' font-size='62' font-weight='800' fill='%23E8A034' text-anchor='middle'%3ET%3C/text%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Taigan",
+  "description": "Умная система автоматизации для общепита: касса, кухонный экран, CRM и ИИ-аналитика.",
+  "telephone": "+996704227177",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Бишкек",
+    "addressCountry": "KG"
+  }
+}
+</script>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -45,6 +75,7 @@
     padding: 0 5%;
     height: 64px;
     background: rgba(11,11,15,0.85);
+    -webkit-backdrop-filter: blur(16px);
     backdrop-filter: blur(16px);
     border-bottom: 1px solid var(--border);
   }
@@ -61,6 +92,16 @@
     transition: color 0.2s;
   }
   .nav-links a:hover { color: var(--text-1); }
+
+  .nav-toggle {
+    display: none; flex-direction: column; justify-content: center; gap: 5px;
+    width: 32px; height: 32px; padding: 0;
+    background: none; border: none; cursor: pointer;
+  }
+  .nav-toggle span {
+    width: 100%; height: 2px; border-radius: 2px;
+    background: var(--text-1); transition: transform 0.2s, opacity 0.2s;
+  }
 
   .btn {
     display: inline-flex; align-items: center; gap: 6px;
@@ -536,7 +577,15 @@
   @media (max-width: 768px) {
     .solution-inner, .custom-inner { grid-template-columns: 1fr; gap: 40px; }
     .pricing-grid { grid-template-columns: 1fr; }
-    .nav-links { display: none; }
+    .nav-toggle { display: flex; }
+    .nav-links {
+      display: none; position: absolute; top: 100%; left: 0; right: 0;
+      flex-direction: column; align-items: flex-start; gap: 0;
+      background: var(--bg); border-bottom: 1px solid var(--border);
+      padding: 8px 5% 16px;
+    }
+    .nav-links.open { display: flex; }
+    .nav-links a { padding: 10px 0; width: 100%; }
     .dp-stats { grid-template-columns: repeat(3, 1fr); }
     section { padding: 70px 5%; }
   }
@@ -581,11 +630,14 @@
 <!-- NAV -->
 <nav>
   <div class="nav-logo">Taigan<span>.</span></div>
-  <div class="nav-links">
+  <div class="nav-links" id="nav-links">
     <a href="#problems">Проблемы</a>
     <a href="#modules">Модули</a>
     <a href="#pricing">Цены</a>
   </div>
+  <button class="nav-toggle" id="nav-toggle" aria-label="Открыть меню" aria-expanded="false" aria-controls="nav-links">
+    <span></span><span></span><span></span>
+  </button>
   <a href="tel:+996704227177" class="btn btn-accent">Попробовать бесплатно</a>
 </nav>
 
@@ -647,32 +699,32 @@
     </div>
     <div class="problems-grid fade-in">
       <div class="problem-card">
-        <div class="problem-icon">✕</div>
+        <div class="problem-icon" aria-hidden="true">✕</div>
         <h3>Слепые зоны в меню</h3>
         <p>Не знаешь, какие позиции тянут прибыль, а какие просто занимают место и списываются в минус.</p>
       </div>
       <div class="problem-card">
-        <div class="problem-icon">✕</div>
+        <div class="problem-icon" aria-hidden="true">✕</div>
         <h3>Заказы теряются</h3>
         <p>Кассир передаёт заказ на кухню на словах или на бумажке. Что-то забывается, что-то путается.</p>
       </div>
       <div class="problem-card">
-        <div class="problem-icon">✕</div>
+        <div class="problem-icon" aria-hidden="true">✕</div>
         <h3>Гости — незнакомцы</h3>
         <p>Нет понимания кто приходит регулярно, кто пришёл впервые и кому уже пора напомнить о себе.</p>
       </div>
       <div class="problem-card">
-        <div class="problem-icon">✕</div>
+        <div class="problem-icon" aria-hidden="true">✕</div>
         <h3>Аналитика в голове</h3>
         <p>Решения принимаются на ощущениях, а не на данных. Excel не считается аналитикой.</p>
       </div>
       <div class="problem-card">
-        <div class="problem-icon">✕</div>
+        <div class="problem-icon" aria-hidden="true">✕</div>
         <h3>Зоопарк приложений</h3>
         <p>Три разных сервиса, у каждого своя подписка. И они не разговаривают друг с другом.</p>
       </div>
       <div class="problem-card">
-        <div class="problem-icon">✕</div>
+        <div class="problem-icon" aria-hidden="true">✕</div>
         <h3>Персонал и ошибки</h3>
         <p>Смена закрывается вручную, недостачи объясняются по-разному, контроля нет.</p>
       </div>
@@ -690,19 +742,19 @@
         <p class="section-sub">Taigan собирает всё в одном месте и сам анализирует данные. Ты видишь полную картину в реальном времени и принимаешь решения на цифрах.</p>
         <div class="solution-features">
           <div class="sol-feat">
-            <div class="sol-feat-icon">✓</div>
+            <div class="sol-feat-icon" aria-hidden="true">✓</div>
             <span>Касса, кухня и зал синхронизированы мгновенно — заказы не теряются</span>
           </div>
           <div class="sol-feat">
-            <div class="sol-feat-icon">✓</div>
+            <div class="sol-feat-icon" aria-hidden="true">✓</div>
             <span>ИИ-аналитика подсказывает что продавать, когда и кому</span>
           </div>
           <div class="sol-feat">
-            <div class="sol-feat-icon">✓</div>
+            <div class="sol-feat-icon" aria-hidden="true">✓</div>
             <span>Каждый гость в базе — история, предпочтения, лояльность</span>
           </div>
           <div class="sol-feat">
-            <div class="sol-feat-icon">✓</div>
+            <div class="sol-feat-icon" aria-hidden="true">✓</div>
             <span>Один экран владельца вместо трёх приложений</span>
           </div>
         </div>
@@ -784,10 +836,10 @@
     </div>
 
     <div class="included-grid fade-in" style="margin-top: 40px;">
-      <div class="inc-item"><span class="inc-icon">⚡</span> Настройка под ключ</div>
-      <div class="inc-item"><span class="inc-icon">🎓</span> Обучение персонала 1–2 ч</div>
-      <div class="inc-item"><span class="inc-icon">💬</span> Поддержка 7 дней в неделю</div>
-      <div class="inc-item"><span class="inc-icon">☁️</span> Облако — данные всегда с тобой</div>
+      <div class="inc-item"><span class="inc-icon" aria-hidden="true">⚡</span> Настройка под ключ</div>
+      <div class="inc-item"><span class="inc-icon" aria-hidden="true">🎓</span> Обучение персонала 1–2 ч</div>
+      <div class="inc-item"><span class="inc-icon" aria-hidden="true">💬</span> Поддержка 7 дней в неделю</div>
+      <div class="inc-item"><span class="inc-icon" aria-hidden="true">☁️</span> Облако — данные всегда с тобой</div>
     </div>
   </div>
 </section>
@@ -834,12 +886,12 @@
         <div class="price-amount">2 900 <sub>сом/мес</sub></div>
         <div class="price-divider"></div>
         <div class="price-features">
-          <div class="pf-item"><span class="pf-check">✓</span> POS-касса</div>
-          <div class="pf-item"><span class="pf-check">✓</span> KDS кухонный экран</div>
-          <div class="pf-item"><span class="pf-check">✓</span> Базовые отчёты</div>
-          <div class="pf-item"><span class="pf-check">✓</span> Поддержка 7/7</div>
-          <div class="pf-item"><span class="pf-x">✕</span> <span style="color:var(--text-3)">CRM и гости</span></div>
-          <div class="pf-item"><span class="pf-x">✕</span> <span style="color:var(--text-3)">ИИ-аналитика</span></div>
+          <div class="pf-item"><span class="pf-check" aria-hidden="true">✓</span> POS-касса</div>
+          <div class="pf-item"><span class="pf-check" aria-hidden="true">✓</span> KDS кухонный экран</div>
+          <div class="pf-item"><span class="pf-check" aria-hidden="true">✓</span> Базовые отчёты</div>
+          <div class="pf-item"><span class="pf-check" aria-hidden="true">✓</span> Поддержка 7/7</div>
+          <div class="pf-item"><span class="pf-x" aria-hidden="true">✕</span> <span style="color:var(--text-3)">CRM и гости</span></div>
+          <div class="pf-item"><span class="pf-x" aria-hidden="true">✕</span> <span style="color:var(--text-3)">ИИ-аналитика</span></div>
         </div>
         <a href="tel:+996704227177" class="price-cta price-cta-sec">Попробовать бесплатно</a>
       </div>
@@ -850,12 +902,12 @@
         <div class="price-amount">5 900 <sub>сом/мес</sub></div>
         <div class="price-divider"></div>
         <div class="price-features">
-          <div class="pf-item"><span class="pf-check">✓</span> POS-касса</div>
-          <div class="pf-item"><span class="pf-check">✓</span> KDS кухонный экран</div>
-          <div class="pf-item"><span class="pf-check">✓</span> CRM и база гостей</div>
-          <div class="pf-item"><span class="pf-check">✓</span> Программа лояльности</div>
-          <div class="pf-item"><span class="pf-check">✓</span> Расширенные отчёты</div>
-          <div class="pf-item"><span class="pf-x">✕</span> <span style="color:var(--text-3)">ИИ-аналитика</span></div>
+          <div class="pf-item"><span class="pf-check" aria-hidden="true">✓</span> POS-касса</div>
+          <div class="pf-item"><span class="pf-check" aria-hidden="true">✓</span> KDS кухонный экран</div>
+          <div class="pf-item"><span class="pf-check" aria-hidden="true">✓</span> CRM и база гостей</div>
+          <div class="pf-item"><span class="pf-check" aria-hidden="true">✓</span> Программа лояльности</div>
+          <div class="pf-item"><span class="pf-check" aria-hidden="true">✓</span> Расширенные отчёты</div>
+          <div class="pf-item"><span class="pf-x" aria-hidden="true">✕</span> <span style="color:var(--text-3)">ИИ-аналитика</span></div>
         </div>
         <a href="tel:+996704227177" class="price-cta price-cta-main">Попробовать бесплатно</a>
       </div>
@@ -865,20 +917,20 @@
         <div class="price-amount">9 900 <sub>сом/мес</sub></div>
         <div class="price-divider"></div>
         <div class="price-features">
-          <div class="pf-item"><span class="pf-check">✓</span> POS-касса</div>
-          <div class="pf-item"><span class="pf-check">✓</span> KDS кухонный экран</div>
-          <div class="pf-item"><span class="pf-check">✓</span> CRM и база гостей</div>
-          <div class="pf-item"><span class="pf-check">✓</span> Программа лояльности</div>
-          <div class="pf-item"><span class="pf-check">✓</span> <strong>ИИ-аналитика</strong></div>
-          <div class="pf-item"><span class="pf-check">✓</span> Прогнозы и рекомендации</div>
+          <div class="pf-item"><span class="pf-check" aria-hidden="true">✓</span> POS-касса</div>
+          <div class="pf-item"><span class="pf-check" aria-hidden="true">✓</span> KDS кухонный экран</div>
+          <div class="pf-item"><span class="pf-check" aria-hidden="true">✓</span> CRM и база гостей</div>
+          <div class="pf-item"><span class="pf-check" aria-hidden="true">✓</span> Программа лояльности</div>
+          <div class="pf-item"><span class="pf-check" aria-hidden="true">✓</span> <strong>ИИ-аналитика</strong></div>
+          <div class="pf-item"><span class="pf-check" aria-hidden="true">✓</span> Прогнозы и рекомендации</div>
         </div>
         <a href="tel:+996704227177" class="price-cta price-cta-sec">Попробовать бесплатно</a>
       </div>
     </div>
     <div class="pricing-notes fade-in">
-      <div class="pn-item"><span class="pn-icon">✓</span> Бесплатное подключение при оплате от 3 месяцев</div>
-      <div class="pn-item"><span class="pn-icon">✓</span> 7 дней пробного периода без карты</div>
-      <div class="pn-item"><span class="pn-icon">✓</span> Без скрытых платежей</div>
+      <div class="pn-item"><span class="pn-icon" aria-hidden="true">✓</span> Бесплатное подключение при оплате от 3 месяцев</div>
+      <div class="pn-item"><span class="pn-icon" aria-hidden="true">✓</span> 7 дней пробного периода без карты</div>
+      <div class="pn-item"><span class="pn-icon" aria-hidden="true">✓</span> Без скрытых платежей</div>
     </div>
   </div>
 </section>
@@ -889,9 +941,9 @@
     <div class="fade-in">
       <h2>Попробуй 7 дней бесплатно</h2>
       <p>Подключим за 1 день. На следующее утро увидишь первую аналитику.</p>
-      <a href="https://wa.me/996704227177" class="cta-btn-big">Написать в WhatsApp →</a>
+      <a href="https://wa.me/996704227177?text=Здравствуйте!%20Хочу%20попробовать%20Taigan%20бесплатно" class="cta-btn-big">Написать в WhatsApp →</a>
       <div class="cta-contact">
-        <p>Или звони напрямую: <a href="tel:+996704227177">+996 704 227 177</a></p>
+        <p>Звони напрямую: <a href="tel:+996704227177">+996 704 227 177</a> · Telegram: <a href="https://t.me/ubezhishekunyakina" target="_blank" rel="noopener">@ubezhishekunyakina</a></p>
       </div>
     </div>
   </div>
@@ -901,7 +953,7 @@
 <footer>
   <div class="footer-logo">Taigan<span>.</span></div>
   <p>Умная система автоматизации для общепита · Бишкек, Кыргызстан</p>
-  <p>+996 704 227 177</p>
+  <p>+996 704 227 177 · <a href="https://t.me/ubezhishekunyakina" target="_blank" rel="noopener" style="color: var(--text-3); text-decoration: none;">Telegram</a></p>
 </footer>
 
 <script>
@@ -936,6 +988,18 @@
   }, { threshold: 0.12 });
 
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Mobile nav toggle
+  const navToggle = document.getElementById('nav-toggle');
+  const navLinks = document.getElementById('nav-links');
+  navToggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', isOpen);
+  });
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    navLinks.classList.remove('open');
+    navToggle.setAttribute('aria-expanded', 'false');
+  }));
 </script>
 </body>
 </html>
