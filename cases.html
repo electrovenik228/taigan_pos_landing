@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Кейсы — Taigan</title>
+<meta name="description" content="Реальные точки на Taigan: кофейня Arabica и магазин парфюмерии NOA Beauty. Касса, заказы, склад и отчёты — уже работают.">
+<meta name="theme-color" content="#0B0B0F">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%230B0B0F'/%3E%3Ctext x='50' y='70' font-family='Arial, sans-serif' font-size='62' font-weight='800' fill='%23E8A034' text-anchor='middle'%3ET%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #0B0B0F;
+    --surface: #141418;
+    --surface-2: #1C1C22;
+    --border: rgba(255,255,255,0.08);
+    --border-hover: rgba(255,255,255,0.16);
+    --accent: #E8A034;
+    --accent-soft: rgba(232,160,52,0.12);
+    --text-1: #F0EEE8;
+    --text-2: #9A9890;
+    --text-3: #55534E;
+    --success: #3DAA6E;
+    --radius: 12px;
+    --radius-lg: 16px;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--bg);
+    color: var(--text-1);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* NAV (shared with index.html) */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5%;
+    height: 64px;
+    background: rgba(11,11,15,0.85);
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo { font-size: 20px; font-weight: 800; color: var(--text-1); letter-spacing: -0.02em; text-decoration: none; }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; align-items: center; gap: 32px; }
+  .nav-links a { font-size: 14px; color: var(--text-2); text-decoration: none; transition: color 0.2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--text-1); }
+
+  .nav-toggle {
+    display: none; flex-direction: column; justify-content: center; gap: 5px;
+    width: 32px; height: 32px; padding: 0;
+    background: none; border: none; cursor: pointer;
+  }
+  .nav-toggle span { width: 100%; height: 2px; border-radius: 2px; background: var(--text-1); }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 10px 22px; border-radius: 8px;
+    font-size: 14px; font-weight: 600; cursor: pointer;
+    text-decoration: none; border: none; transition: all 0.2s;
+  }
+  .btn-accent { background: var(--accent); color: #0B0B0F; }
+  .btn-accent:hover { background: #F0B048; transform: translateY(-1px); }
+
+  /* PAGE HEADER */
+  .page-header {
+    padding: 150px 5% 60px;
+    text-align: center;
+  }
+  .section-label {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .page-header h1 {
+    font-size: clamp(28px, 4vw, 44px); font-weight: 800;
+    letter-spacing: -0.02em; line-height: 1.2; margin-bottom: 16px;
+  }
+  .page-header p {
+    font-size: 16px; color: var(--text-2); max-width: 560px;
+    margin: 0 auto; line-height: 1.7;
+  }
+
+  .container { max-width: 1080px; margin: 0 auto; }
+  section { padding: 60px 5%; }
+
+  /* CASE BLOCK */
+  .case-block { margin-bottom: 32px; }
+  .case-head {
+    display: flex; align-items: center; gap: 16px;
+    margin-bottom: 24px;
+  }
+  .case-logo {
+    width: 56px; height: 56px; border-radius: 14px;
+    object-fit: cover; border: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+  .case-title { font-size: 22px; font-weight: 800; letter-spacing: -0.01em; margin-bottom: 4px; }
+  .case-desc { font-size: 14px; color: var(--text-2); max-width: 640px; }
+  .case-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+  .case-tag {
+    font-size: 11px; font-weight: 600; letter-spacing: 0.04em;
+    background: var(--accent-soft); color: var(--accent);
+    padding: 4px 10px; border-radius: 100px;
+  }
+
+  .case-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+  }
+  .case-shot {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    cursor: zoom-in;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .case-shot:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+  .case-shot img { width: 100%; display: block; aspect-ratio: 1851 / 966; object-fit: cover; }
+  .case-shot-caption {
+    padding: 10px 14px; font-size: 12px; color: var(--text-2);
+    border-top: 1px solid var(--border);
+  }
+
+  .case-divider { height: 1px; background: var(--border); margin: 56px 0; }
+
+  /* LIGHTBOX */
+  .lightbox {
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(11,11,15,0.92);
+    display: none; align-items: center; justify-content: center;
+    padding: 5%;
+  }
+  .lightbox.open { display: flex; }
+  .lightbox img {
+    max-width: 100%; max-height: 100%;
+    border-radius: var(--radius); border: 1px solid var(--border-hover);
+  }
+  .lightbox-close {
+    position: absolute; top: 24px; right: 5%;
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--surface-2); border: 1px solid var(--border-hover);
+    color: var(--text-1); font-size: 18px; cursor: pointer;
+  }
+
+  /* CTA */
+  .cta-section {
+    background: var(--surface);
+    text-align: center;
+    padding: 90px 5%;
+  }
+  .cta-section h2 {
+    font-size: clamp(24px, 4vw, 36px); font-weight: 800;
+    letter-spacing: -0.02em; margin-bottom: 14px;
+  }
+  .cta-section p { font-size: 15px; color: var(--text-2); margin-bottom: 28px; }
+  .cta-btn-big {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: var(--accent); color: #0B0B0F;
+    font-size: 16px; font-weight: 700;
+    padding: 16px 40px; border-radius: 10px;
+    text-decoration: none; transition: all 0.2s;
+  }
+  .cta-btn-big:hover { background: #F0B048; transform: translateY(-2px); }
+
+  /* FOOTER */
+  footer {
+    padding: 28px 5%;
+    border-top: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 12px;
+  }
+  .footer-logo { font-size: 16px; font-weight: 800; }
+  .footer-logo span { color: var(--accent); }
+  footer p { font-size: 12px; color: var(--text-3); }
+
+  .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 768px) {
+    .nav-toggle { display: flex; }
+    .nav-links {
+      display: none; position: absolute; top: 100%; left: 0; right: 0;
+      flex-direction: column; align-items: flex-start;
+      background: var(--bg); border-bottom: 1px solid var(--border);
+      padding: 8px 5% 16px;
+    }
+    .nav-links.open { display: flex; }
+    .nav-links a { padding: 10px 0; width: 100%; }
+    .page-header { padding: 120px 5% 40px; }
+    section { padding: 40px 5%; }
+  }
+
+  @media (max-width: 480px) {
+    nav { padding: 0 4%; height: 56px; }
+    .nav-logo { font-size: 17px; }
+    nav .btn { padding: 8px 14px; font-size: 12.5px; }
+
+    .page-header { padding: 100px 5% 32px; }
+    section { padding: 32px 5%; }
+
+    .case-head { flex-wrap: wrap; }
+    .case-logo { width: 44px; height: 44px; }
+    .case-title { font-size: 19px; }
+    .case-gallery { gap: 12px; }
+
+    .cta-section { padding: 56px 5%; }
+    .cta-btn-big { width: 100%; justify-content: center; padding: 16px 24px; }
+
+    .lightbox-close { top: 12px; right: 12px; }
+
+    footer { flex-direction: column; text-align: center; gap: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">Taigan<span>.</span></a>
+  <div class="nav-links" id="nav-links">
+    <a href="index.html#problems">Проблемы</a>
+    <a href="index.html#modules">Модули</a>
+    <a href="cases.html" class="active">Кейсы</a>
+    <a href="index.html#pricing">Цены</a>
+  </div>
+  <button class="nav-toggle" id="nav-toggle" aria-label="Открыть меню" aria-expanded="false" aria-controls="nav-links">
+    <span></span><span></span><span></span>
+  </button>
+  <a href="tel:+996704227177" class="btn btn-accent">Попробовать бесплатно</a>
+</nav>
+
+<!-- HEADER -->
+<header class="page-header fade-in">
+  <div class="section-label">Кейсы</div>
+  <h1>Это уже работает — не макет, а реальные точки</h1>
+  <p>Две площадки, которые мы запустили на Taigan: кофейня и магазин парфюмерии. Разные процессы — одна платформа.</p>
+</header>
+
+<!-- CASES -->
+<section>
+  <div class="container">
+
+    <!-- ARABICA -->
+    <div class="case-block fade-in">
+      <div class="case-head">
+        <img src="arabica_coffee/arabica_logo.jpg" alt="Логотип Arabica" class="case-logo">
+        <div>
+          <div class="case-title">Arabica — кофейня</div>
+          <p class="case-desc">Касса для бариста, очередь заказов на самовывоз и доставку, история продаж и отчёт по выручке за день — всё в одном интерфейсе на точке.</p>
+          <div class="case-tags">
+            <span class="case-tag">POS</span>
+            <span class="case-tag">Очередь заказов</span>
+            <span class="case-tag">Отчёты</span>
+          </div>
+        </div>
+      </div>
+      <div class="case-gallery">
+        <div class="case-shot" data-full="arabica_coffee/arabica-pos.png">
+          <img src="arabica_coffee/arabica-pos.png" alt="Касса Arabica — выбор напитков и корзина" loading="lazy">
+          <div class="case-shot-caption">Касса — приём заказа</div>
+        </div>
+        <div class="case-shot" data-full="arabica_coffee/arabica-orders.png">
+          <img src="arabica_coffee/arabica-orders.png" alt="Очередь заказов на самовывоз и доставку" loading="lazy">
+          <div class="case-shot-caption">Заказы — самовывоз и доставка</div>
+        </div>
+        <div class="case-shot" data-full="arabica_coffee/arabica-report.png">
+          <img src="arabica_coffee/arabica-report.png" alt="Отчёт за день: выручка по часам, топ продуктов" loading="lazy">
+          <div class="case-shot-caption">Отчёт за день</div>
+        </div>
+        <div class="case-shot" data-full="arabica_coffee/arabica-history.png">
+          <img src="arabica_coffee/arabica-history.png" alt="История выданных заказов" loading="lazy">
+          <div class="case-shot-caption">История заказов</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="case-divider"></div>
+
+    <!-- NOA BEAUTY -->
+    <div class="case-block fade-in">
+      <div class="case-head">
+        <img src="noa_beuty/noa_logo.jpg" alt="Логотип NOA Beauty" class="case-logo">
+        <div>
+          <div class="case-title">NOA Beauty — парфюмерия и косметика</div>
+          <p class="case-desc">Учёт остатков флаконов и распива по миллилитрам, быстрое пробитие чека со скидками, финансовый отчёт и админка для управления товарами и брендами.</p>
+          <div class="case-tags">
+            <span class="case-tag">Склад</span>
+            <span class="case-tag">Чеки и скидки</span>
+            <span class="case-tag">Финансы</span>
+          </div>
+        </div>
+      </div>
+      <div class="case-gallery">
+        <div class="case-shot" data-full="noa_beuty/noa-dashboard.png">
+          <img src="noa_beuty/noa-dashboard.png" alt="Панель управления NOA Beauty" loading="lazy">
+          <div class="case-shot-caption">Панель управления</div>
+        </div>
+        <div class="case-shot" data-full="noa_beuty/noa-checkout.png">
+          <img src="noa_beuty/noa-checkout.png" alt="Пробитие нового чека с распивом" loading="lazy">
+          <div class="case-shot-caption">Новый чек</div>
+        </div>
+        <div class="case-shot" data-full="noa_beuty/noa-inventory.png">
+          <img src="noa_beuty/noa-inventory.png" alt="Остатки парфюма на складе" loading="lazy">
+          <div class="case-shot-caption">Остатки на складе</div>
+        </div>
+        <div class="case-shot" data-full="noa_beuty/noa-admin.png">
+          <img src="noa_beuty/noa-admin.png" alt="Админ-панель для управления товарами" loading="lazy">
+          <div class="case-shot-caption">Админка товаров и брендов</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section fade-in">
+  <div class="container">
+    <h2>Хочешь такой же кейс для своего бизнеса?</h2>
+    <p>Опиши свои процессы — скажем, что из этого можно сделать и за сколько.</p>
+    <a href="https://wa.me/996704227177?text=Здравствуйте!%20Видел%20кейсы%20Arabica%20и%20NOA%20Beauty%2C%20хочу%20обсудить%20свой%20проект" class="cta-btn-big">Написать в WhatsApp →</a>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightbox-close" aria-label="Закрыть">✕</button>
+  <img id="lightbox-img" src="" alt="Увеличенный скриншот">
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <a href="index.html" class="footer-logo" style="text-decoration:none; color:var(--text-1);">Taigan<span>.</span></a>
+  <p>Умная система автоматизации для общепита и розницы · Бишкек, Кыргызстан</p>
+  <p>+996 704 227 177 · <a href="https://t.me/ubezhishekunyakina" target="_blank" rel="noopener" style="color: var(--text-3); text-decoration: none;">Telegram</a></p>
+</footer>
+
+<script>
+  // Mobile nav toggle
+  const navToggle = document.getElementById('nav-toggle');
+  const navLinks = document.getElementById('nav-links');
+  navToggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    navToggle.setAttribute('aria-expanded', isOpen);
+  });
+
+  // Lightbox
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  document.querySelectorAll('.case-shot').forEach(shot => {
+    shot.addEventListener('click', () => {
+      lightboxImg.src = shot.dataset.full;
+      lightbox.classList.add('open');
+    });
+  });
+  document.getElementById('lightbox-close').addEventListener('click', () => lightbox.classList.remove('open'));
+  lightbox.addEventListener('click', (e) => { if (e.target === lightbox) lightbox.classList.remove('open'); });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') lightbox.classList.remove('open'); });
+
+  // Fade-in on scroll
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
